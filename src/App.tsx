@@ -1,25 +1,48 @@
-import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+
+import { ComponentType, Suspense } from 'react';
+import { Route, Switch } from 'react-router-dom'
+
+import { BaseLayout } from './common/layouts/BaseLayout';
+import { rootRoutes } from './common/routes';
+
+export interface IRoute {
+  path: string
+  component?: ComponentType<any>
+  exact?: boolean
+  to?: string
+  childrenRoutes?: IRoute[]
+}
+
+const renderRoute = (routes: IRoute[]) => {
+  return routes.map((route: IRoute) => {
+    if (route?.childrenRoutes?.length) {
+      return (
+        <Switch>
+          {
+            renderRoute(route.childrenRoutes)
+          }
+        </Switch>
+      )
+    } else {
+      return (
+        <Route {...route} />
+      )
+    }
+  })
+}
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BaseLayout>
+    <Suspense fallback={<div>Loading...</div>}>
+      <Switch>
+        {
+          renderRoute(rootRoutes)
+        }
+      </Switch>
+      </Suspense>
+    </BaseLayout>
   );
 }
 
