@@ -2,7 +2,7 @@ import { Button, Col, Form, Input, Row } from 'antd';
 
 import { FC } from 'react';
 
-export const PermissionForm: FC = () => {
+export const RoleForm: FC = () => {
   return (
     <Form>
       <Row gutter={[15, 15]}>

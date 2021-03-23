@@ -1,10 +1,21 @@
 import { IRoute } from "../App";
+import { PermissionForm } from './components/PermissionForm';
 import { PermissionsPage } from './components/PermissionsPage';
 
 export const permissionRoutes: IRoute[] = [
   {
     path: '/permissions',
-    exact: true,
-    component: PermissionsPage
+    childrenRoutes: [
+      {
+        path: '/permissions',
+        exact: true,
+        component: PermissionsPage
+      },
+      {
+        path: '/permissions/new',
+        exact: true,
+        component: PermissionForm
+      }
+    ]
   }
 ]
