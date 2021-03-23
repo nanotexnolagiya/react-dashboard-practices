@@ -1,6 +1,8 @@
 import './index.css';
 
 import App from './App';
+import { LocaleManagerProvider } from './common/components/i18n/LocaleManagerProvider';
+import { MessagesProvider } from './common/components/i18n/MessagesProvider';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { StrictMode } from 'react';
@@ -14,7 +16,11 @@ render(
   <StrictMode>
     <Provider store={store}>
       <Router>
-        <App />
+        <LocaleManagerProvider>
+          <MessagesProvider>
+            <App />
+          </MessagesProvider>
+        </LocaleManagerProvider>
       </Router>
     </Provider>
   </StrictMode>,
