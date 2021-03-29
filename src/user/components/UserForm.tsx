@@ -2,10 +2,15 @@ import { Button, Col, Form, Input, Row, Select, Spin } from 'antd';
 import { FC, useState } from 'react';
 
 import { RouteChildrenProps } from 'react-router';
+import { useForm } from 'antd/lib/form/Form';
+import { useMessage } from '../../common/components/i18n/useMessage';
 
 export interface UserFormProps extends RouteChildrenProps {}
 
 export const UserForm: FC<UserFormProps> = ({ history }) => {
+  const [form] = useForm();
+  const t = useMessage();
+
   const handleCancel = () => {
     history.goBack();
   };
@@ -20,13 +25,13 @@ export const UserForm: FC<UserFormProps> = ({ history }) => {
   const handleScrollPopup = () => {};
 
   return (
-    <Form layout="vertical">
+    <Form layout="vertical" form={form}>
       <Row gutter={[15, 15]}>
         <Col span={24}>
           <Form.Item
             name="name"
-            label="Name"
-            rules={[{ required: true, message: 'Field required' }]}
+            label={t('name')}
+            rules={[{ required: true, message: t('required_field') }]}
           >
             <Input />
           </Form.Item>
@@ -35,14 +40,14 @@ export const UserForm: FC<UserFormProps> = ({ history }) => {
           <Form.Item
             className="defaultInput"
             name="role_id"
-            label={'Role'}
-            rules={[{ required: true, message: 'Field required' }]}
+            label={t('role')}
+            rules={[{ required: true, message: t('required_field') }]}
           >
             <Select
               onChange={handleChange}
               onSearch={handleSearch}
               onPopupScroll={handleScrollPopup}
-              placeholder={'Choose Role'}
+              placeholder={t('choose_role')}
               showSearch
               notFoundContent={loading ? <Spin size="small" /> : null}
               loading={loading}
@@ -60,12 +65,12 @@ export const UserForm: FC<UserFormProps> = ({ history }) => {
       <Row justify="end" gutter={[20, 0]}>
         <Col>
           <Button size="large" onClick={handleCancel}>
-            Cancel
+            {t('cancel')}
           </Button>
         </Col>
         <Col>
           <Button size="large" type="primary">
-            Save
+            {t('save')}
           </Button>
         </Col>
       </Row>

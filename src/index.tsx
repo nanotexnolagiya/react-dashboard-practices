@@ -9,8 +9,22 @@ import { StrictMode } from 'react';
 import { render } from 'react-dom';
 import reportWebVitals from './reportWebVitals';
 import { store } from './common/store';
+import { worker } from './mocks/browser';
 
 const elem = document.getElementById('root');
+
+// Start the mocking conditionally.
+if (process.env.NODE_ENV === 'development') {
+  worker
+    .start({
+      serviceWorker: {
+        options: {
+          scope: '/api',
+        },
+      },
+    })
+    .catch(console.log);
+}
 
 render(
   <StrictMode>

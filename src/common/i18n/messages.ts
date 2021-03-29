@@ -50,6 +50,22 @@ export const messages = createMessages(localeManager.getLocales(), {
     ru: 'Нет',
     uz: "Yo'q",
   },
+  required_field: {
+    ru: 'This field is required',
+    uz: 'This field is required',
+  },
+  choose_role: {
+    ru: 'Choose a role',
+    uz: 'Choose a role',
+  },
+  role: {
+    ru: 'Role',
+    uz: 'Role',
+  },
+  name: {
+    ru: 'Name',
+    uz: 'Name',
+  },
 });
 
 export type MessageKey = Parameters<typeof messages>[0];
