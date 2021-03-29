@@ -23,7 +23,7 @@ const initialState: PermissionInitialState = {
 
 export const permissionSlice = createSlice({
   name: 'permission',
-  initialState: initialState,
+  initialState,
   reducers: {
     fetchRequest: (state: PermissionInitialState) => ({
       ...state,

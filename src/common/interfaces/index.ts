@@ -3,3 +3,9 @@ export interface IBaseDates {
   updated_at?: string;
   deleted_at?: string;
 }
+
+export interface Page<T> {
+  page: number;
+  total: number;
+  list: T[];
+}
