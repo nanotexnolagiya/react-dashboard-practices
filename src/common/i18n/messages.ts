@@ -55,16 +55,16 @@ export const messages = createMessages(localeManager.getLocales(), {
     uz: 'This field is required',
   },
   choose_role: {
-    ru: 'Choose a role',
-    uz: 'Choose a role',
+    ru: 'Выберите роль',
+    uz: 'Rolni tanlang',
   },
   role: {
-    ru: 'Role',
-    uz: 'Role',
+    ru: 'Роль',
+    uz: 'Rol',
   },
   name: {
-    ru: 'Name',
-    uz: 'Name',
+    ru: 'Название',
+    uz: 'Nomi',
   },
 });
 

@@ -5,6 +5,8 @@
   "dependencies": {
     "@ant-design/icons": "^4.5.0",
     "@reduxjs/toolkit": "^1.5.0",
+    "@rjsf/antd": "^2.5.1",
+    "@rjsf/core": "^2.5.1",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
@@ -17,6 +19,7 @@
     "@types/redux": "^3.6.0",
     "antd": "^4.14.0",
     "axios": "^0.21.1",
+    "dayjs": "^1.10.4",
     "dotenv-cli": "^4.0.0",
     "husky": "^5.2.0",
     "lint-staged": "^10.5.4",

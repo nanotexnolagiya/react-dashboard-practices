@@ -6,9 +6,9 @@ import {
   TableCurrentDataSource,
 } from 'antd/lib/table/interface';
 import { FC, useState } from 'react';
+import { Link, RouteChildrenProps } from 'react-router-dom';
 
 import { IUser } from '../interface';
-import { Link } from 'react-router-dom';
 
 const columns: ColumnsType<IUser> = [
   {
@@ -29,8 +29,9 @@ const dataSource: IUser[] = [
     username: 'Username 1',
   },
 ];
+export interface UsersPageProps extends RouteChildrenProps {}
 
-export const UsersPage: FC = () => {
+export const UsersPage: FC<UsersPageProps> = ({ location }) => {
   const [pagination, setPagination] = useState<TablePaginationConfig>({
     current: 1,
     pageSize: 10,
@@ -50,7 +51,7 @@ export const UsersPage: FC = () => {
 
   return (
     <>
-      <Link to="/users/new">
+      <Link to={location.pathname + '/new'}>
         <Button type="primary" style={{ marginBottom: 16 }}>
           Add a row
         </Button>

@@ -1,3 +1,4 @@
+import { permissionMock } from './permissionMock';
 import { userMock } from './userMock';
 
 export interface MockResponse<T> {
@@ -5,4 +6,4 @@ export interface MockResponse<T> {
   message: string;
 }
 
-export const handlers = [...userMock];
+export const handlers = [...userMock, ...permissionMock];

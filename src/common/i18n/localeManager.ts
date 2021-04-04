@@ -1,3 +1,3 @@
 import { createLocaleManager } from './createLocaleManager';
 
-export const localeManager = createLocaleManager(['uz', 'ru'], 'uz');
+export const localeManager = createLocaleManager(['uz', 'ru'], 'ru');

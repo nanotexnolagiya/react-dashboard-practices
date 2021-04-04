@@ -5,39 +5,34 @@ import { LocaleManagerProvider } from './common/components/i18n/LocaleManagerPro
 import { MessagesProvider } from './common/components/i18n/MessagesProvider';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { StrictMode } from 'react';
 import { render } from 'react-dom';
 import reportWebVitals from './reportWebVitals';
 import { store } from './common/store';
-import { worker } from './mocks/browser';
 
 const elem = document.getElementById('root');
 
 // Start the mocking conditionally.
 if (process.env.NODE_ENV === 'development') {
-  worker
-    .start({
-      serviceWorker: {
-        options: {
-          scope: '/api',
-        },
-      },
-    })
-    .catch(console.log);
+  const { worker } = require('./mocks/browser');
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const options = {
+    onUnhandledRequest(req: any) {
+      console.error('Found an unhandled %s request to %s', req.method, req.url.href);
+    },
+  };
+  worker.start(options).catch(console.log);
 }
 
 render(
-  <StrictMode>
-    <Provider store={store}>
-      <Router>
-        <LocaleManagerProvider>
-          <MessagesProvider>
-            <App />
-          </MessagesProvider>
-        </LocaleManagerProvider>
-      </Router>
-    </Provider>
-  </StrictMode>,
+  <Provider store={store}>
+    <Router>
+      <LocaleManagerProvider>
+        <MessagesProvider>
+          <App />
+        </MessagesProvider>
+      </LocaleManagerProvider>
+    </Router>
+  </Provider>,
   elem
 );
 

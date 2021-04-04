@@ -29,7 +29,6 @@ const renderRoute = (routes: IRoute[]) => {
 };
 
 function App() {
-  console.log(renderRoute(rootRoutes));
   return (
     <BaseLayout>
       <Suspense fallback={<div>Loading...</div>}>
