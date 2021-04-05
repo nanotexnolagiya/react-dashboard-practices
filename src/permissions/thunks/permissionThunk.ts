@@ -38,3 +38,23 @@ export const createPermission = (
     dispatch(permissionSlice.actions.createFailure(error.message));
   }
 };
+
+export const updatePermission = (payload: Record<string, any>) => async (dispatch: Dispatch) => {
+  dispatch(permissionSlice.actions.updateRequest(payload));
+  try {
+    await permissionsService.update(payload.id, payload);
+    dispatch(permissionSlice.actions.updateSuccess());
+  } catch (error) {
+    dispatch(permissionSlice.actions.updateFailure(error.message));
+  }
+};
+
+export const deletePermission = (id: string | number) => async (dispatch: Dispatch) => {
+  dispatch(permissionSlice.actions.deleteRequest());
+  try {
+    await permissionsService.delete(id);
+    dispatch(permissionSlice.actions.deleteSuccess());
+  } catch (error) {
+    dispatch(permissionSlice.actions.deleteFailure(error.message));
+  }
+};

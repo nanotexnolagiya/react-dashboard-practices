@@ -1,24 +1,28 @@
 import { Button, Col, Row } from 'antd';
-import { FC, useMemo, useState } from 'react';
+import { FC, useCallback, useEffect, useMemo, useState } from 'react';
+import { createPermission, fetchPermission, updatePermission } from '../thunks/permissionThunk';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { ISubmitEvent } from '@rjsf/core';
 import { IsomorphicForm } from '../../common/components/IsomorphicForm';
 import { RouteChildrenProps } from 'react-router';
 import { State } from '../../common/store';
-import { createPermission } from '../thunks/permissionThunk';
 import { useMessage } from '../../common/components/i18n/useMessage';
 
 export interface PermissionInitialForm {
   name: string;
 }
 
-export interface PermissionFormProps extends RouteChildrenProps {}
+export interface PermissionFormProps
+  extends RouteChildrenProps<{
+    id?: string;
+  }> {}
 
-export const PermissionForm: FC<PermissionFormProps> = ({ history }) => {
+export const PermissionForm: FC<PermissionFormProps> = ({ history, match }) => {
   const t = useMessage();
   const dispatch = useDispatch();
   const isUpdating = useSelector((state: State) => state.permission.isUpdating);
+  const permission = useSelector((state: State) => state.permission.data);
 
   const schema: any = useMemo(
     () => ({
@@ -30,7 +34,6 @@ export const PermissionForm: FC<PermissionFormProps> = ({ history }) => {
     [t]
   );
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [formData, setFormData] = useState<PermissionInitialForm>({
     name: '',
   });
@@ -39,10 +42,29 @@ export const PermissionForm: FC<PermissionFormProps> = ({ history }) => {
     history.goBack();
   };
 
-  const handleSubmit = (e: ISubmitEvent<PermissionInitialForm>): void => {
-    dispatch(createPermission(e.formData));
-    history.goBack();
-  };
+  const handleSubmit = useCallback(
+    (e: ISubmitEvent<PermissionInitialForm>): void => {
+      if (match?.params?.id) {
+        dispatch(updatePermission(e.formData));
+      } else {
+        dispatch(createPermission(e.formData));
+      }
+      history.goBack();
+    },
+    [dispatch, history, match?.params?.id]
+  );
+
+  useEffect(() => {
+    if (match?.params?.id) {
+      dispatch(fetchPermission(match?.params?.id));
+    }
+  }, [dispatch, match?.params?.id]);
+
+  useEffect(() => {
+    if (permission) {
+      setFormData(permission);
+    }
+  }, [permission]);
 
   return (
     <IsomorphicForm schema={schema} formData={formData} onSubmit={handleSubmit}>

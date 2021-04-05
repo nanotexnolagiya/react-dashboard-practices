@@ -68,7 +68,35 @@ export const messages = createMessages(localeManager.getLocales(), {
   },
   permission: {
     ru: 'Разрешение',
-    uz: 'Ruhsatlar',
+    uz: 'Ruhsatnoma',
+  },
+  user: {
+    ru: 'Пользователь',
+    uz: 'Foydalanuvchi',
+  },
+  permissions: {
+    ru: 'Разрешения',
+    uz: 'Ruhsatnomalar',
+  },
+  roles: {
+    ru: 'Роли',
+    uz: 'Rollar',
+  },
+  users: {
+    ru: 'Пользователи',
+    uz: 'Foydalanuvchilar',
+  },
+  settings: {
+    ru: 'Настройки',
+    uz: 'Sozlamalar',
+  },
+  are_you_sure_delete: {
+    ru: 'Вы уверены, что хотите удалить?',
+    uz: "Aniq o'chirib tashlashni hohlaysizmi?",
+  },
+  loading: {
+    ru: 'Загрузка',
+    uz: 'Yuklanmoqda',
   },
 });
 

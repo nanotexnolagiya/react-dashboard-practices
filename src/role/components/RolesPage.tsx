@@ -62,7 +62,7 @@ export const RolesPage: FC<RolesPageProps> = ({ location }) => {
     <>
       <Link to={location.pathname + '/new'}>
         <Button type="primary" style={{ marginBottom: 16 }}>
-          Add a row
+          {t('add')}
         </Button>
       </Link>
       <Table<IRole>
