@@ -40,7 +40,6 @@ export const PermissionForm: FC<PermissionFormProps> = ({ history }) => {
   };
 
   const handleSubmit = (e: ISubmitEvent<PermissionInitialForm>): void => {
-    console.log({ formData: e.formData });
     dispatch(createPermission(e.formData));
     history.goBack();
   };

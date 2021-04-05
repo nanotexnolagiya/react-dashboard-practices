@@ -66,6 +66,10 @@ export const messages = createMessages(localeManager.getLocales(), {
     ru: 'Название',
     uz: 'Nomi',
   },
+  permission: {
+    ru: 'Разрешение',
+    uz: 'Ruhsatlar',
+  },
 });
 
 export type MessageKey = Parameters<typeof messages>[0];

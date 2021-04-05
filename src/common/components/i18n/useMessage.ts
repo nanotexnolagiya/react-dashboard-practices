@@ -8,6 +8,6 @@ export const useMessage = () => {
   const message = useContext(MessagesContext);
 
   return (key: Parameters<typeof message>[0]) => {
-    return message(key, locale);
+    return message(key, locale) || key;
   };
 };
