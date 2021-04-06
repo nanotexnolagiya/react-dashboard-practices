@@ -31,9 +31,32 @@ export const createRole = (payload: Record<string, any>, config?: AxiosRequestCo
 ) => {
   dispatch(roleSlice.actions.createRequest(payload));
   try {
-    await rolesService.create(payload);
+    const res = await rolesService.create(payload);
     dispatch(roleSlice.actions.createSuccess());
+    return res.data;
   } catch (error) {
     dispatch(roleSlice.actions.createFailure(error.message));
+  }
+};
+
+export const updateRole = (payload: Record<string, any>) => async (dispatch: Dispatch) => {
+  dispatch(roleSlice.actions.updateRequest(payload));
+  try {
+    const res = await rolesService.update(payload.id, payload);
+    dispatch(roleSlice.actions.updateSuccess());
+    return res.data;
+  } catch (error) {
+    dispatch(roleSlice.actions.updateFailure(error.message));
+  }
+};
+
+export const deleteRole = (id: string | number) => async (dispatch: Dispatch) => {
+  dispatch(roleSlice.actions.deleteRequest());
+  try {
+    const res = await rolesService.delete(id);
+    dispatch(roleSlice.actions.deleteSuccess());
+    return res.data;
+  } catch (error) {
+    dispatch(roleSlice.actions.deleteFailure(error.message));
   }
 };

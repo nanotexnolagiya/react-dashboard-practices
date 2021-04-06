@@ -26,6 +26,10 @@ export const messages = createMessages(localeManager.getLocales(), {
     ru: 'Редактировать',
     uz: 'Tahrirlash',
   },
+  update: {
+    ru: 'Обновить',
+    uz: 'Yangilash',
+  },
   delete: {
     ru: 'Удалить',
     uz: "O'chirish",
@@ -39,7 +43,7 @@ export const messages = createMessages(localeManager.getLocales(), {
     uz: 'Bekor qilish',
   },
   reload: {
-    ru: '',
+    ru: 'Перезагрузить',
     uz: 'Қайта юклаш',
   },
   yes: {
@@ -70,6 +74,10 @@ export const messages = createMessages(localeManager.getLocales(), {
     ru: 'Разрешение',
     uz: 'Ruhsatnoma',
   },
+  choose_permission: {
+    ru: 'Выберите разрешение',
+    uz: 'Ruhsatnomani tanlang',
+  },
   user: {
     ru: 'Пользователь',
     uz: 'Foydalanuvchi',
@@ -97,6 +105,10 @@ export const messages = createMessages(localeManager.getLocales(), {
   loading: {
     ru: 'Загрузка',
     uz: 'Yuklanmoqda',
+  },
+  add_role: {
+    ru: 'Добавить роль',
+    uz: "Rol qo'shish",
   },
 });
 

@@ -1,7 +1,12 @@
 import './BaseLayout.css';
 
 import { Button, Dropdown, Layout, Menu } from 'antd';
-import { DownOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
+import {
+  DownOutlined,
+  SettingOutlined,
+  TranslationOutlined,
+  UserOutlined,
+} from '@ant-design/icons';
 import { FC, Fragment, useCallback, useMemo } from 'react';
 
 import { Link } from 'react-router-dom';
@@ -86,7 +91,7 @@ export const BaseLayout: FC<{}> = ({ children }) => {
       <Layout className="site-layout" style={{ marginLeft: 200 }}>
         <Layout.Header className="site-layout-background" style={{ padding: '0 15px' }}>
           <Dropdown overlay={languagesDropdown} trigger={['click']}>
-            <Button>
+            <Button type="primary" icon={<TranslationOutlined />}>
               {languages.find((language: ILanguage) => language.code === localeManager.getCurrent())
                 ?.name || 'Languages'}{' '}
               <DownOutlined />

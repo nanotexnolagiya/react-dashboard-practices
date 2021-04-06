@@ -32,8 +32,9 @@ export const createPermission = (
 ) => async (dispatch: Dispatch) => {
   dispatch(permissionSlice.actions.createRequest(payload));
   try {
-    await permissionsService.create(payload);
+    const res = await permissionsService.create(payload);
     dispatch(permissionSlice.actions.createSuccess());
+    return res.data;
   } catch (error) {
     dispatch(permissionSlice.actions.createFailure(error.message));
   }
@@ -42,8 +43,9 @@ export const createPermission = (
 export const updatePermission = (payload: Record<string, any>) => async (dispatch: Dispatch) => {
   dispatch(permissionSlice.actions.updateRequest(payload));
   try {
-    await permissionsService.update(payload.id, payload);
+    const res = await permissionsService.update(payload.id, payload);
     dispatch(permissionSlice.actions.updateSuccess());
+    return res.data;
   } catch (error) {
     dispatch(permissionSlice.actions.updateFailure(error.message));
   }
@@ -52,8 +54,9 @@ export const updatePermission = (payload: Record<string, any>) => async (dispatc
 export const deletePermission = (id: string | number) => async (dispatch: Dispatch) => {
   dispatch(permissionSlice.actions.deleteRequest());
   try {
-    await permissionsService.delete(id);
+    const res = await permissionsService.delete(id);
     dispatch(permissionSlice.actions.deleteSuccess());
+    return res.data;
   } catch (error) {
     dispatch(permissionSlice.actions.deleteFailure(error.message));
   }

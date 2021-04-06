@@ -38,15 +38,15 @@ export const PermissionsPage: FC<PermissionsPageProps> = ({ location, history })
         okText: t('yes'),
         okType: 'danger',
         cancelText: t('no'),
-        onOk() {
+        async onOk() {
           const messageKey = 'delete';
           message.loading({
             content: t('loading'),
             key: messageKey,
           });
-          dispatch(deletePermission(`${item.id}`));
+          const res = await deletePermission(`${item.id}`)(dispatch);
           message.success({
-            content: 'Success',
+            content: res.message,
             key: messageKey,
           });
         },
@@ -84,6 +84,7 @@ export const PermissionsPage: FC<PermissionsPageProps> = ({ location, history })
             <Tooltip title={t('delete')}>
               <Button
                 type="primary"
+                danger
                 shape="circle"
                 icon={<DeleteOutlined />}
                 onClick={handleDelete.bind(null, item)}

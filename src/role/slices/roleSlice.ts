@@ -5,7 +5,7 @@ import { IBaseDates } from '../../common/interfaces';
 export interface IRole extends IBaseDates {
   id?: number;
   name: string;
-  role_id: number;
+  permission_id: number;
 }
 
 export interface RoleInitialState {

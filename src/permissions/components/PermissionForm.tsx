@@ -1,4 +1,4 @@
-import { Button, Col, Row } from 'antd';
+import { Button, Col, Row, message } from 'antd';
 import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { createPermission, fetchPermission, updatePermission } from '../thunks/permissionThunk';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,11 +14,19 @@ export interface PermissionInitialForm {
 }
 
 export interface PermissionFormProps
-  extends RouteChildrenProps<{
-    id?: string;
-  }> {}
+  extends RouteChildrenProps<
+    {
+      id?: string;
+    },
+    {
+      permission?: {
+        redirect?: string;
+        formData?: any;
+      };
+    }
+  > {}
 
-export const PermissionForm: FC<PermissionFormProps> = ({ history, match }) => {
+export const PermissionForm: FC<PermissionFormProps> = ({ history, location, match }) => {
   const t = useMessage();
   const dispatch = useDispatch();
   const isUpdating = useSelector((state: State) => state.permission.isUpdating);
@@ -27,6 +35,7 @@ export const PermissionForm: FC<PermissionFormProps> = ({ history, match }) => {
   const schema: any = useMemo(
     () => ({
       type: 'object',
+      required: ['name'],
       properties: {
         name: { title: t('name'), type: 'string' },
       },
@@ -43,15 +52,43 @@ export const PermissionForm: FC<PermissionFormProps> = ({ history, match }) => {
   };
 
   const handleSubmit = useCallback(
-    (e: ISubmitEvent<PermissionInitialForm>): void => {
-      if (match?.params?.id) {
-        dispatch(updatePermission(e.formData));
-      } else {
-        dispatch(createPermission(e.formData));
+    async (e: ISubmitEvent<PermissionInitialForm>): Promise<void> => {
+      const messageKey = 'submit';
+      let res: any;
+      message.loading({
+        content: t('loading'),
+        key: messageKey,
+      });
+      try {
+        if (match?.params?.id) {
+          res = await updatePermission(e.formData)(dispatch);
+        } else {
+          res = await createPermission(e.formData)(dispatch);
+        }
+
+        message.success({
+          content: res.message,
+          key: messageKey,
+        });
+        if (location?.state.permission?.redirect) {
+          history.push({
+            pathname: location?.state.permission?.redirect,
+            state: {
+              ...location?.state,
+              permission: undefined,
+            },
+          });
+        } else {
+          history.goBack();
+        }
+      } catch (e) {
+        message.error({
+          content: e.message,
+          key: messageKey,
+        });
       }
-      history.goBack();
     },
-    [dispatch, history, match?.params?.id]
+    [dispatch, history, location?.state, match?.params?.id, t]
   );
 
   useEffect(() => {
@@ -66,6 +103,12 @@ export const PermissionForm: FC<PermissionFormProps> = ({ history, match }) => {
     }
   }, [permission]);
 
+  useEffect(() => {
+    if (location?.state?.permission?.formData) {
+      setFormData(location?.state?.permission?.formData);
+    }
+  }, [location?.state?.permission?.formData]);
+
   return (
     <IsomorphicForm schema={schema} formData={formData} onSubmit={handleSubmit}>
       <Row justify="end" gutter={[20, 0]}>
@@ -76,7 +119,7 @@ export const PermissionForm: FC<PermissionFormProps> = ({ history, match }) => {
         </Col>
         <Col>
           <Button loading={isUpdating} size="large" type="primary" htmlType="submit">
-            {t('save')}
+            {t(match?.params?.id ? 'update' : 'save')}
           </Button>
         </Col>
       </Row>
