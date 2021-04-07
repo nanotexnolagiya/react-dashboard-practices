@@ -2,7 +2,7 @@ import { MockResponse } from './handlers';
 import fk from 'faker';
 import { rest } from 'msw';
 
-export interface IPermission {
+interface IPermission {
   id: number;
   name: string;
 }

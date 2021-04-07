@@ -47,8 +47,22 @@ export const PermissionForm: FC<PermissionFormProps> = ({ history, location, mat
     name: '',
   });
 
+  const redirectBack = useCallback(() => {
+    if (location?.state.permission?.redirect) {
+      history.push({
+        pathname: location?.state.permission?.redirect,
+        state: {
+          ...location?.state,
+          permission: undefined,
+        },
+      });
+    } else {
+      history.goBack();
+    }
+  }, [history, location?.state]);
+
   const handleCancel = (): void => {
-    history.goBack();
+    redirectBack();
   };
 
   const handleSubmit = useCallback(
@@ -70,17 +84,7 @@ export const PermissionForm: FC<PermissionFormProps> = ({ history, location, mat
           content: res.message,
           key: messageKey,
         });
-        if (location?.state.permission?.redirect) {
-          history.push({
-            pathname: location?.state.permission?.redirect,
-            state: {
-              ...location?.state,
-              permission: undefined,
-            },
-          });
-        } else {
-          history.goBack();
-        }
+        redirectBack();
       } catch (e) {
         message.error({
           content: e.message,
@@ -88,7 +92,7 @@ export const PermissionForm: FC<PermissionFormProps> = ({ history, location, mat
         });
       }
     },
-    [dispatch, history, location?.state, match?.params?.id, t]
+    [dispatch, match?.params?.id, redirectBack, t]
   );
 
   useEffect(() => {

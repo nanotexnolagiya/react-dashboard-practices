@@ -3,17 +3,19 @@ import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { createRole, fetchRole, updateRole } from '../thunks/roleThunk';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { IPermission } from '../../permissions/slices/permissionSlice';
 import { ISubmitEvent } from '@rjsf/core';
 import { IsomorphicForm } from '../../common/components/IsomorphicForm';
 import { Link } from 'react-router-dom';
 import { RouteChildrenProps } from 'react-router';
 import { State } from '../../common/store';
 import { fetchPermissions } from '../../permissions/thunks/permissionThunk';
+import { mergeDeep } from '../../common/utils';
 import { useMessage } from '../../common/components/i18n/useMessage';
 
 export interface RoleInitialForm {
   name: string;
-  permission_id: number | null;
+  permission_id?: number | null;
 }
 
 export interface RoleFormProps
@@ -45,8 +47,8 @@ export const RoleForm: FC<RoleFormProps> = ({ history, match, location }) => {
         permission_id: {
           title: t('permissions'),
           type: 'number',
-          enum: permissions.map((p: any) => p.id),
-          enumNames: permissions.map((p: any) => p.name),
+          enum: permissions.map((p: IPermission) => p.id),
+          enumNames: permissions.map((p: IPermission) => p.name),
         },
       },
     }),
@@ -64,15 +66,29 @@ export const RoleForm: FC<RoleFormProps> = ({ history, match, location }) => {
 
   const [formData, setFormData] = useState<RoleInitialForm>({
     name: '',
-    permission_id: null,
+    permission_id: undefined,
   });
-
-  const handleCancel = (): void => {
-    history.goBack();
-  };
 
   const handleChangeForm = (e: ISubmitEvent<RoleInitialForm>): void => {
     setFormData(e.formData);
+  };
+
+  const redirectBack = useCallback(() => {
+    if (location?.state?.role?.redirect) {
+      history.push({
+        pathname: location?.state?.role?.redirect,
+        state: {
+          ...location?.state,
+          role: undefined,
+        },
+      });
+    } else {
+      history.goBack();
+    }
+  }, [history, location?.state]);
+
+  const handleCancel = (): void => {
+    redirectBack();
   };
 
   const handleSubmit = useCallback(
@@ -94,17 +110,7 @@ export const RoleForm: FC<RoleFormProps> = ({ history, match, location }) => {
           content: res.message,
           key: messageKey,
         });
-        if (location?.state?.role?.redirect) {
-          history.push({
-            pathname: location?.state?.role?.redirect,
-            state: {
-              ...location?.state,
-              role: undefined,
-            },
-          });
-        } else {
-          history.goBack();
-        }
+        redirectBack();
       } catch (e) {
         message.error({
           content: e.message,
@@ -112,7 +118,7 @@ export const RoleForm: FC<RoleFormProps> = ({ history, match, location }) => {
         });
       }
     },
-    [dispatch, history, location?.state, match?.params?.id, t]
+    [dispatch, match?.params?.id, redirectBack, t]
   );
 
   useEffect(() => {
@@ -148,10 +154,16 @@ export const RoleForm: FC<RoleFormProps> = ({ history, match, location }) => {
       <Link
         to={{
           pathname: '/permissions/new',
-          state: { permission: { redirect: history.location.pathname }, role: { formData } },
+          state: mergeDeep(
+            {
+              permission: { redirect: history.location.pathname },
+              role: { formData },
+            },
+            { ...location.state }
+          ),
         }}
       >
-        <Button type="primary">{t('add_role')}</Button>
+        <Button type="primary">{t('add_permission')}</Button>
       </Link>
       <Row justify="end" gutter={[20, 0]}>
         <Col>

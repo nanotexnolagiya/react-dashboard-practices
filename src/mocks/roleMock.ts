@@ -2,7 +2,7 @@ import { MockResponse } from './handlers';
 import fk from 'faker';
 import { rest } from 'msw';
 
-export interface IRole {
+interface IRole {
   id: number;
   name: string;
   permission_id: number;

@@ -110,6 +110,30 @@ export const messages = createMessages(localeManager.getLocales(), {
     ru: 'Добавить роль',
     uz: "Rol qo'shish",
   },
+  add_user: {
+    ru: 'Добавить пользователя',
+    uz: "Foydalanuvchi qo'shish",
+  },
+  add_permission: {
+    ru: 'Добавить разрешение',
+    uz: "Ruhsatnoma qo'shish",
+  },
+  first_name: {
+    ru: 'Имя',
+    uz: 'Ism',
+  },
+  last_name: {
+    ru: 'Фамилия',
+    uz: 'Familiya',
+  },
+  email: {
+    ru: 'Электронная почта',
+    uz: 'Elektron pochta',
+  },
+  phone: {
+    ru: 'Телефон',
+    uz: 'Telefon',
+  },
 });
 
 export type MessageKey = Parameters<typeof messages>[0];
