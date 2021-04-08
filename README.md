@@ -1,6 +1,7 @@
 # About
 
-This project is designed for those who want to write a dashboard in the react library. In doing so, a web application was designed based on my experience.
+Since on the React library.js is mainly written by Dashboard app, I wrote a Starter Kit based on my experience, I hope it will be useful for both beginners and experienced developers.
+One Star⭐ ⭐ ⭐ ️ from you, if you like it.
 
 ## Install
 
